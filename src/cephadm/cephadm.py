@@ -982,7 +982,7 @@ class CephNvmeof(object):
         mounts['/etc/ceph/ceph.client.admin.keyring'] = '/etc/ceph/keyring:z' # TODO(redo): FIXME
         mounts[os.path.join(data_dir, 'ceph-nvmeof.conf')] = '/src/ceph-nvmeof.conf:z'
         mounts[os.path.join(data_dir, 'configfs')] = '/sys/kernel/config'
-        #mounts[log_dir] = '/var/log:z'
+        #mounts[log_dir] = '/var/log:z' # TODO(redo): would we need a logdir?
         mounts['/dev'] = '/dev'
         return mounts
 
@@ -6388,7 +6388,7 @@ def command_deploy(ctx):
                       ports=daemon_ports)
     elif daemon_type == CephNvmeof.daemon_type:
         config, keyring = get_config_and_keyring(ctx)
-        uid, gid = 65534, 65534  # TODO: check this
+        uid, gid = 65534, 65534  # TODO(redo): check this
         c = get_deployment_container(ctx, ctx.fsid, daemon_type, daemon_id)
         deploy_daemon(ctx, ctx.fsid, daemon_type, daemon_id, c, uid, gid,
                       config=config, keyring=keyring,
