@@ -1060,6 +1060,12 @@ class CephNvmeof(object):
                   'umount {0}; fi'.format(mount_path)
         return cmd.split()
 
+    @staticmethod
+    def get_sysctl_settings() -> List[str]:
+        return [
+            'vm.nr_hugepages = 2048',
+        ]
+
 
 ##################################
 
@@ -4005,6 +4011,8 @@ def install_sysctl(ctx: CephadmContext, fsid: str, daemon_type: str) -> None:
         lines = HAproxy.get_sysctl_settings()
     elif daemon_type == 'keepalived':
         lines = Keepalived.get_sysctl_settings()
+    elif daemon_type == 'nvmeof':
+        lines = CephNvmeof.get_sysctl_settings()
     lines = filter_sysctl_settings(ctx, lines)
 
     # apply the sysctl settings
